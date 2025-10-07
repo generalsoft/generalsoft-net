@@ -1,8 +1,47 @@
-<html>
-  <head>
-  <title>Generalsoft.net</title>
-  </head>  
-  <body>
-    <p1>under construction....</p1>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Redirecting…</title>
+  <meta name="robots" content="noindex">
+  <style>
+    body { font-family: sans-serif; text-align: center; margin-top: 10%; }
+  </style>
+</head>
+<body>
+  <p>Redirecting to <a href="https://generalsoft.com">generalsoft.com</a>…</p>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+    // 🔧 Replace these with your own values
+    const SUPABASE_URL = 'https://gfbmvfamnycyhmlhxjwy.supabase.co'
+    const SUPABASE_ANON_KEY = 'sb_publishable_7tF7vpYzo4yXFvAu5S00ZQ_jQ5CNp2M'  // safe only if RLS is insert-only
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+    async function logAndRedirect() {
+      try {
+        await supabase
+          .from('redirect_logs')
+          .insert([
+            {
+              domain: window.location.hostname,
+              referrer: document.referrer || '',
+              user_agent: navigator.userAgent
+            }
+          ])
+      } catch (err) {
+        console.warn('Logging failed:', err)
+      } finally {
+        // redirect after small delay
+        setTimeout(() => {
+          window.location.href = 'https://generalsoft.com'
+        }, 300)
+      }
+    }
+
+    logAndRedirect()
+  </script>
+</body>
 </html>
