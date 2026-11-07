@@ -60,14 +60,43 @@ submission to the `contactMessages` Firestore collection:
 
 ### 2. Deploy the security rules
 
+> **The ruleset is shared.** `generalsoft.com`, `generalsoft.ai`,
+> `generalsoft.ae` and `generalsoft.net` all write to the same Firebase project,
+> so deploying from this repository replaces the rules for **all four** domains.
+> `.firebase/firestore.rules` therefore contains every collection in use:
+>
+> | Collection | Used by | Access |
+> | ------------------ | ------------------------------ | ------------------------------ |
+> | `contactMessages` | generalsoft.net (this site) | validated create, no client reads |
+> | `contacts` | .com / .ai / .ae contact forms | validated create, no client reads |
+> | `support` | .com / .ai / .ae support form | validated create, no client reads |
+> | `demo_appointments` | .com / .ai / .ae | any anonymous create |
+> | `inquiries` | .com / .ai / .ae | any anonymous create |
+> | `job_applications` | .com / .ai / .ae | any anonymous create |
+>
+> Deleting a legacy `match` block here breaks another domain's form with
+> "Missing or insufficient permissions" — the exact outage this merge fixed.
+
 `firestore.rules` allows anonymous visitors to **create** a validated
 `contactMessages` document and blocks all reads/updates/deletes from the client.
 Read submissions in the Firebase console (or with the Admin SDK).
 
+The Firebase CLI config (`firebase.json`, `.firebaserc`, `firestore.rules`) lives
+in `.firebase/`, so deploy from there:
+
 ```bash
-npx firebase-tools deploy --only firestore:rules --project <your-project-id>
-# or, with the project pinned in .firebaserc:
-npm run deploy:rules
+cd .firebase && npx firebase-tools deploy --only firestore:rules --project <your-project-id>
+```
+
+`.firebase/` is gitignored, so keep a copy of `firestore.rules` somewhere
+versioned (or move `firebase.json`/`firestore.rules` to the repository root).
+
+Before deploying, run the merged ruleset against the emulator to check every
+collection in both directions:
+
+```bash
+cd .firebase && npx firebase-tools emulators:exec --only firestore \
+  --project demo-generalsoft "node rules-smoke-test.mjs"
 ```
 
 > Without these rules the default "deny all" policy applies and the form will
@@ -114,6 +143,10 @@ src/components/         page sections, incl. Contact.astro (form)
 src/layouts/Layout.astro
 src/lib/firebase.ts     Firebase app + Firestore helpers for the contact form
 src/pages/index.astro
-firestore.rules         Firestore security rules for contactMessages
+.firebase/
+  firebase.json         Firebase CLI config (firestore rules target)
+  firestore.rules       Shared ruleset: contactMessages (.net) + the legacy
+                        .com / .ai / .ae collections — see "Deploy the rules"
+  rules-smoke-test.mjs  Emulator smoke test for every collection (local only)
 .github/workflows/      GitHub Pages deployment
 ```
