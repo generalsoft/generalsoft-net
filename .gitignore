@@ -1,0 +1,75 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.output/
+
+# Astro generated files
+.astro/
+
+# Environment variables (never commit secrets)
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Package manager caches
+.npm/
+.yarn/cache/
+.yarn/unplugged/
+.yarn/install-state.gz
+.pnpm-store/
+
+# TypeScript
+*.tsbuildinfo
+
+# Deployment platform folders
+.vercel/
+.netlify/
+.wrangler/
+.vscode/*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.idea/
+*.swp
+
+# Firebase CLI
+.firebase/
+firebase-debug.log*
+firebase-debug.*.log*
+firestore-debug.log
+ui-debug.log
+pubsub-debug.log
+database-debug.log
+
+# Firebase emulator data
+.emulator-data/
+emulator-data/
+firebase-export-*/
+
+# Service account / Admin SDK credentials (NEVER commit these)
+serviceAccount*.json
+*-firebase-adminsdk-*.json
+service-account*.json
+google-credentials.json
+
+# Cloud Functions (if you use them)
+functions/node_modules/
+functions/lib/
+functions/.env
+functions/.env.*
+!functions/.env.example
+functions/.runtimeconfig.json
+.runtimeconfig.json

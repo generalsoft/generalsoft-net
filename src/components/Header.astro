@@ -1,0 +1,85 @@
+---
+// Header / Navigation
+---
+
+<header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <nav class="max-w-7xl mx-auto px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center shadow-lg shadow-brand-600/20 group-hover:shadow-brand-600/40 transition-shadow">
+          <span class="text-white font-bold text-lg">G</span>
+        </div>
+        <div class="hidden sm:block">
+          <span class="font-bold text-lg text-slate-900 header-text-color">Generalsoft</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#services" class="text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors header-link-color">Services</a>
+        <a href="#ai-courses" class="text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors header-link-color">AI Courses</a>
+        <a href="#custom-software" class="text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors header-link-color">Custom Software</a>
+        <a href="#about" class="text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors header-link-color">About</a>
+        <a href="#contact" class="btn-primary !py-2.5 !px-5 !text-sm">Get in Touch</a>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-600 hover:text-brand-600" aria-label="Toggle menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden hidden pb-6">
+      <div class="flex flex-col gap-4 pt-4 border-t border-slate-200">
+        <a href="#services" class="text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors mobile-link">Services</a>
+        <a href="#ai-courses" class="text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors mobile-link">AI Courses</a>
+        <a href="#custom-software" class="text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors mobile-link">Custom Software</a>
+        <a href="#about" class="text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors mobile-link">About</a>
+        <a href="#contact" class="btn-primary !py-2.5 text-center !text-sm">Get in Touch</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<style>
+  header {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  header.scrolled {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  }
+</style>
+
+<script>
+  // Sticky header style on scroll
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) {
+      header?.classList.add('scrolled');
+    } else {
+      header?.classList.remove('scrolled');
+    }
+  });
+
+  // Mobile menu toggle
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  menuBtn?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+  });
+
+  // Close mobile menu when clicking a link
+  document.querySelectorAll('.mobile-link').forEach((link) => {
+    link.addEventListener('click', () => {
+      mobileMenu?.classList.add('hidden');
+    });
+  });
+</script>
